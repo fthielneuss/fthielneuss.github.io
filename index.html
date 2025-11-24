@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <meta http-equiv="refresh" content="0.5; url=https://jkg.ngrok.app">
-    
-    <title>Weiterleitung zum AI-Server</title>
+    <title>Server-Status wird geprüft...</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,33 +11,74 @@
             padding-top: 50px;
             background-color: #f4f4f9;
         }
-        .info {
+        .loading {
             color: #007bff;
+        }
+        .offline {
+            color: #cc0000;
+            border: 1px solid #cc0000;
             padding: 30px;
             margin: 50px auto;
-            max-width: 600px;
+            max-width: 500px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .offline-text {
-            color: #cc0000;
-            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="info">
-        <h1>🚀 Weiterleitung läuft...</h1>
-        <p>Sie werden in Kürze zum AI-Server weitergeleitet.</p>
-        
-        <p class="offline-text" style="margin-top: 40px;">
-            Wenn Sie **innerhalb von 5 Sekunden eine Fehlermeldung** sehen (z.B. "500 Internal Error" oder "ERR_NGROK_3200"), bedeutet das:
-        </p>
-        
-        <h2>🛑 Server ist offline!</h2>
-        <p>Bitte senden Sie mir eine WhatsApp, um ihn zu starten.</p>
+    <div id="status-message" class="loading">
+        <h1>🔍 Server-Status wird geprüft...</h1>
+        <p>Bitte warten Sie einen Moment. Die Weiterleitung erfolgt automatisch.</p>
     </div>
+
+    <script>
+        // Ihre ngrok-Domain:
+        const TUNNEL_URL = 'https://jkg.ngrok.app'; 
+        
+        // Die Baustellenmeldung, wenn der gesamte Tunnel offline ist:
+        const OFFLINE_MESSAGE_HTML = `
+            <div class="offline">
+                <h1>🛑 Server im Ruhemodus!</h1>
+                <p>Das gesamte System ist momentan offline (MacBook ist ausgeschaltet).</p>
+                <p>Schreibe mir eine WhatsApp – ich schalte den Server dann schnellstmöglich für dich an.</p>
+                <p>Danke für deine Geduld!</p>
+            </div>
+        `;
+
+        async function checkStatusAndRedirect() {
+            try {
+                // Führt einen schnellen HEAD-Request durch
+                const response = await fetch(TUNNEL_URL, {
+                    method: 'HEAD', 
+                    cache: 'no-store'
+                });
+
+                // Wenn der Request erfolgreich gesendet werden konnte (Tunnel ist aktiv),
+                // leiten wir weiter, egal ob die Antwort 200, 500 oder 502 ist.
+                if (response.status) { 
+                    window.location.replace(TUNNEL_URL);
+                    return;
+                }
+                
+                // Wenn fetch erfolgreich war, aber keine status-Nummer gesetzt wurde (sehr unwahrscheinlich), 
+                // zeigen wir trotzdem die Offline-Meldung, um den Benutzer zu informieren.
+                displayOfflineMessage();
+
+            } catch (error) {
+                // NUR bei einem Netzwerkfehler (Tunnel/MacBook ist komplett aus)
+                // zeigen wir die benutzerdefinierte Offline-Meldung an.
+                displayOfflineMessage();
+            }
+        }
+
+        function displayOfflineMessage() {
+            document.getElementById('status-message').innerHTML = OFFLINE_MESSAGE_HTML;
+        }
+
+        // Starte den Check sofort
+        setTimeout(checkStatusAndRedirect, 100);
+    </script>
 
 </body>
 </html>
