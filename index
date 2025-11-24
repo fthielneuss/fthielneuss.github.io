@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="refresh" content="0.5; url=https://jkg.ngrok.app">
+    
+    <title>Weiterleitung zum AI-Server</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            background-color: #f4f4f9;
+        }
+        .info {
+            color: #007bff;
+            padding: 30px;
+            margin: 50px auto;
+            max-width: 600px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .offline-text {
+            color: #cc0000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="info">
+        <h1>🚀 Weiterleitung läuft...</h1>
+        <p>Sie werden in Kürze zum AI-Server weitergeleitet.</p>
+        
+        <p class="offline-text" style="margin-top: 40px;">
+            Wenn Sie **innerhalb von 5 Sekunden eine Fehlermeldung** sehen (z.B. "500 Internal Error" oder "ERR_NGROK_3200"), bedeutet das:
+        </p>
+        
+        <h2>🛑 Server ist offline!</h2>
+        <p>Bitte senden Sie mir eine WhatsApp, um ihn zu starten.</p>
+    </div>
+
+</body>
+</html>
